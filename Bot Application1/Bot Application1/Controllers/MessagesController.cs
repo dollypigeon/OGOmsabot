@@ -44,7 +44,7 @@ namespace Bot_Application1
         public string TimeOption="";
         public string Namestr="";
         public string Agestr="";
-        public string userid;
+
         public string Phonestr="";
         public string userchoice = "";
         public double totalprice;
@@ -283,7 +283,7 @@ namespace Bot_Application1
         {
             var phone = await argument;
             Regex regex = new Regex("^[0-9]+(-[0-9]+)*$");
-            if (regex.IsMatch(phone.Text))
+            if (regex.IsMatch(phone.Text)==true)
             {
                     Phonestr = phone.Text;
                     Customer Cname = new Customer()
@@ -295,12 +295,14 @@ namespace Bot_Application1
                         TIME=TimeOption
                     };
                     await AzureManager.AzureManagerInstance.AddCustomer(Cname);
+
                     await context.PostAsync("Please confirm your booking information showing below by replying Yes or Cancel.");
                     var message1 = context.MakeMessage();
                     var attachment = GetReceiptCard();
                     message1.Attachments = new List<Attachment>();
                     message1.Attachments.Add(attachment);
                     await context.PostAsync(message1);
+
                     context.Wait(ConfirmReceivedAsync);
             }
             else
@@ -327,7 +329,7 @@ namespace Bot_Application1
             public async Task ConfirmReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
             {
                 var confirmation = await argument;
-                userid = "";
+                var userid = "";
                 var message2 = context.MakeMessage();
                 var attachment = GetThumbnailCard();
                 message2.Attachments = new List<Attachment>();
@@ -356,7 +358,7 @@ namespace Bot_Application1
                         ID = userid
                     };
                     await AzureManager.AzureManagerInstance.DeleteCustomer(deletecus);
-                    await context.PostAsync("Your booking has been canceled, reply anything to start again."+userid);
+                    await context.PostAsync("Your booking has been canceled, reply anything to start again.");
                     context.Wait(MessageReceivedAsync);
                 }
                 else

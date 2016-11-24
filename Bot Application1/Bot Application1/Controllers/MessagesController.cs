@@ -44,7 +44,6 @@ namespace Bot_Application1
         public string TimeOption="";
         public string Namestr="";
         public string Agestr="";
-
         public string Phonestr="";
         public string userchoice = "";
         public double totalprice;
@@ -344,7 +343,9 @@ namespace Bot_Application1
                     context.Wait(MessageReceivedAsync);
                 }
                 else if (confirmation.Text.ToLower()=="cancel")
-                {                   
+                {
+                    this.userchoice = "";
+                    this.totalprice = 0;
                     List<Customer> customers = await AzureManager.AzureManagerInstance.GetCustomers();
                     foreach (var i in customers)
                     {

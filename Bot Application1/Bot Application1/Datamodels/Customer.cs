@@ -25,5 +25,6 @@ namespace Bot_Application1.Datamodels
 
         [JsonProperty(PropertyName = "Bookingtime")]
         public string TIME { get; set; }
+
     }
 }
